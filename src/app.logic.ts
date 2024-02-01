@@ -1,48 +1,46 @@
 import fs from 'node:fs'
-const msg: string = 'Hola Mundo';
+import { yarg } from './plugins/args.plugins';
+import path from 'node:path';
 
-console.log(msg);
 
 const outputPath = 'outputs';
+const directoryOutputs = path.join(__dirname, '..', outputPath);
 
-const writeInFile = ( num: number, arrNum: number[] ) => {
-  //  const text = `${ num } x ${ i + 1 } = ${ e } \n`;
-   let text: string = `
+const writeInFile = ( base: number, arrNum: number[] ) => {
+  
+  let text: string = `
 =================================\n
-        Tabla del ${ num }\n
+        Tabla del ${ base }\n
 =================================\n
 `;
 
-if ( !fs.existsSync(`../${outputPath}`) )
-  fs.mkdirSync(`../${outputPath}`, { recursive: true });
-arrNum.forEach( ( e, i ) => {
-  text += `${ num } x ${ i + 1 } = ${ e } \n`;
-})
+  if ( !fs.existsSync(`${directoryOutputs}`) )
+    fs.mkdirSync(directoryOutputs, { recursive: true }); // recursive puedo pasar en el path anidación de directorios
 
-// if ( !fs.existsSync(`../outputs/`) && !fs.existsSync(`../outputs/table_${ num }.txt`) )
-   fs.writeFileSync(`../outputs/table_${ num }.txt`, text);
+  arrNum.forEach( ( e, i ) => {
+    text += `${ base } x ${ i + 1 } = ${ e } \n`;
+  })
 
-  // if ( !fs.existsSync(`../table_${ num }.txt`) ){
-    
-  //     arrNum.forEach( ( e, i ) => {
-  //       fs.writeFileSync('../table_5',`${ num } x ${ i + 1 } = ${ e } \n`);
-  //     })
+  fs.writeFileSync(`${directoryOutputs}/table_${ base }.txt`, text);
 
-  // }
+  return text;
 
 }
 
-const multiplicate = ( num: number ) => {
+const multiplicate = ( base: number, limit: number, showTable: boolean ) => {
 
   const table: number[] = [];
 
-  for (let i = 1; i < 11; i++) {
-    table.push(i * num);
+  for (let i = 1; i <= limit; i++) {
+    table.push(i * base);
   }
 
-  table.forEach( (e, i) => console.log(`${ num } x ${ i + 1 } = ${ e }`));
-  writeInFile(num, table);
+  const text = writeInFile(base, table);  
+  showTable.valueOf() ? console.log(text): '';
+  
 }
 
-multiplicate( 5 );
-multiplicate( 1 );
+
+const { b: base, l: list, s: showTable } = yarg;
+
+multiplicate( base, list, showTable );
