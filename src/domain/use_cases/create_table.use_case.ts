@@ -20,9 +20,21 @@ export class CreateTable implements CreateTableUseCase {
 
   execute({ base, limit = 10 }: CreateTableOptions){ //* Donde se ejecuta lo que queremos hacer con el caso de uso
     let outputMessage = '';
-    for (let i = 1; i < limit; i++) {
-      outputMessage += `${ base } x ${ i } = ${ base * i }\n`
+    console.time('CreateTable');
+    
+    // for (let i = 1; i <= limit; i++) {
+    //   outputMessage += `${ base } x ${ i } = ${ base * i }`;
+    //   if ( i < limit)
+    //   outputMessage += '\n';
+    // }
+    
+    let i = 1;
+    while (i < limit){
+      outputMessage += `${ base } x ${ i } = ${ base * i }\n`;
+      i++;
     }
+    outputMessage += `${ base } x ${ i } = ${ base * i }`;
+    
     return outputMessage;
   }
 
