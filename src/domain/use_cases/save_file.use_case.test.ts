@@ -95,11 +95,9 @@ describe('SaveFilesUseCase', () => {
 
     expect( result ).toBeFalsy();
 
-    writeFileSpy.mockRestore();
+    writeFileSpy.mockRestore(); // Restaura la función original
 
   })
-
-
 
 })
 

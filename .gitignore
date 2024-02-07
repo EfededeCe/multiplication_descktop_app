@@ -1,5 +1,9 @@
 node_modules/
 dist/
 .env
+
 tsconfig.json
 outputs/
+custom_outputs/
+test_destination/
+coverage/
